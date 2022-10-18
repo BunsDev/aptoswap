@@ -18,7 +18,8 @@ module Aptoswap::pool_test {
         is_pool_freeze, 
         validate_lsp_from_address,
         get_pool_x, 
-        get_pool_y, 
+        get_pool_y,
+        get_pool_fee_direction,
         get_pool_lsp_supply, 
         is_swap_cap_exists, 
         get_pool_admin_fee, 
@@ -389,20 +390,20 @@ module Aptoswap::pool_test {
         test_amm_simulate_1000_impl(&admin, &guy);
     }
 
-    // #[test(admin = @Aptoswap, guy = @0x10000)]
-    // fun test_amm_simulate_3000(admin: signer, guy: signer) {
-    //     test_amm_simulate_3000_impl(&admin, &guy);
-    // }
+    #[test(admin = @Aptoswap, guy = @0x10000)]
+    fun test_amm_simulate_3000(admin: signer, guy: signer) {
+        test_amm_simulate_3000_impl(&admin, &guy);
+    }
 
-    // #[test(admin = @Aptoswap, guy = @0x10000)]
-    // fun test_amm_simulate_5000(admin: signer, guy: signer) {
-    //     test_amm_simulate_5000_impl(&admin, &guy);
-    // }
+    #[test(admin = @Aptoswap, guy = @0x10000)]
+    fun test_amm_simulate_5000(admin: signer, guy: signer) {
+        test_amm_simulate_5000_impl(&admin, &guy);
+    }
 
-    // #[test(admin = @Aptoswap, guy = @0x10000)]
-    // fun test_amm_simulate_10000(admin: signer, guy: signer) {
-    //     test_amm_simulate_10000_impl(&admin, &guy);
-    // }
+    #[test(admin = @Aptoswap, guy = @0x10000)]
+    fun test_amm_simulate_10000(admin: signer, guy: signer) {
+        test_amm_simulate_10000_impl(&admin, &guy);
+    }
 
     // ============================================= Test Case =============================================
 
@@ -883,6 +884,7 @@ module Aptoswap::pool_test {
             if (info.x_added > 0) 
             {
                 print(&111);
+                print(&get_pool_fee_direction<TX, TY>());
                 print(&get_pool_x<TX, TY>());
                 print(&get_pool_y<TX, TY>());
 
@@ -899,6 +901,7 @@ module Aptoswap::pool_test {
             else if (info.y_added > 0) 
             {
                 print(&222);
+                print(&get_pool_fee_direction<TX, TY>());
                 print(&get_pool_x<TX, TY>());
                 print(&get_pool_y<TX, TY>());
 
@@ -909,8 +912,8 @@ module Aptoswap::pool_test {
                 print(&get_pool_connect_fee<TX, TY>());
                 print(&get_pool_lp_fee<TX, TY>());
                 print(&get_pool_incentive_fee<TX, TY>());
-                print(&info.y_added);
                 print(&x_removed);
+                print(&info.y_added);
             };
 
             // Check the data matches the simulate data

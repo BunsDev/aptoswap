@@ -947,6 +947,11 @@ module Aptoswap::pool {
         coin::value(&pool.x)
     }
 
+    public(friend) fun get_pool_fee_direction<X, Y>(): u8 acquires Pool { 
+        let pool = borrow_global_mut<Pool<X, Y>>(@Aptoswap);
+        pool.fee_direction
+    }
+
     public(friend) fun get_pool_y<X, Y>(): u64  acquires Pool { 
         let pool = borrow_global_mut<Pool<X, Y>>(@Aptoswap);
         coin::value(&pool.y)
