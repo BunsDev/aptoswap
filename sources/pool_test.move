@@ -31,378 +31,378 @@ module Aptoswap::pool_test {
     use Aptoswap::pool::{ LSP, Token };
 
     // ============================================= Test Case =============================================
-    #[test(admin = @Aptoswap)]
-    fun test_create_pool(admin: signer) {
-        test_create_pool_impl(&admin); 
-    }
+    // #[test(admin = @Aptoswap)]
+    // fun test_create_pool(admin: signer) {
+    //     test_create_pool_impl(&admin); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134007)] // EPermissionDenied
-    fun test_create_pool_with_non_admin(admin: signer, guy: signer) {
-        test_create_pool_with_non_admin_impl(&admin, &guy);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134007)] // EPermissionDenied
+    // fun test_create_pool_with_non_admin(admin: signer, guy: signer) {
+    //     test_create_pool_with_non_admin_impl(&admin, &guy);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_swap_x_to_y(admin: signer, guy: signer) {
-        // test_swap_x_to_y_impl(&admin, &guy, false);
-        test_swap_x_to_y_default_impl(&admin, &guy);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_swap_x_to_y(admin: signer, guy: signer) {
+    //     // test_swap_x_to_y_impl(&admin, &guy, false);
+    //     test_swap_x_to_y_default_impl(&admin, &guy);
+    // }
 
-    #[test(admin = @Aptoswap)]
-    fun test_freeze_pool(admin: signer) {
-        test_freeze_pool_impl(&admin);
-    }
+    // #[test(admin = @Aptoswap)]
+    // fun test_freeze_pool(admin: signer) {
+    //     test_freeze_pool_impl(&admin);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134007)] // EPermissionDenied
-    fun test_freeze_pool_with_non_admin_impl(admin: signer, guy: signer) {
-        test_freeze_or_unfreeze_pool_with_non_admin_impl(&admin, &guy, true);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134007)] // EPermissionDenied
+    // fun test_freeze_pool_with_non_admin_impl(admin: signer, guy: signer) {
+    //     test_freeze_or_unfreeze_pool_with_non_admin_impl(&admin, &guy, true);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134007)] // EPermissionDenied
-    fun test_unfreeze_pool_with_non_admin_impl(admin: signer, guy: signer) {
-        test_freeze_or_unfreeze_pool_with_non_admin_impl(&admin, &guy, false);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134007)] // EPermissionDenied
+    // fun test_unfreeze_pool_with_non_admin_impl(admin: signer, guy: signer) {
+    //     test_freeze_or_unfreeze_pool_with_non_admin_impl(&admin, &guy, false);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_swap_x_to_y_check_balance_empty(admin: signer, guy: signer) {
-        test_swap_x_to_y_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: true,
-                check_balance_not_enough: false,
-                check_pool_freeze: false
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_swap_x_to_y_check_balance_empty(admin: signer, guy: signer) {
+    //     test_swap_x_to_y_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: true,
+    //             check_balance_not_enough: false,
+    //             check_pool_freeze: false
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_swap_x_to_y_check_balance_not_enough(admin: signer, guy: signer) {
-        test_swap_x_to_y_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: false,
-                check_balance_not_enough: true,
-                check_pool_freeze: false
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_swap_x_to_y_check_balance_not_enough(admin: signer, guy: signer) {
+    //     test_swap_x_to_y_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: false,
+    //             check_balance_not_enough: true,
+    //             check_pool_freeze: false
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134010)] // EPoolFreeze
-    fun test_swap_x_to_y_check_pool_freeze(admin: signer, guy: signer) {
-        test_swap_x_to_y_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: false,
-                check_balance_not_enough: false,
-                check_pool_freeze: true
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134010)] // EPoolFreeze
+    // fun test_swap_x_to_y_check_pool_freeze(admin: signer, guy: signer) {
+    //     test_swap_x_to_y_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: false,
+    //             check_balance_not_enough: false,
+    //             check_pool_freeze: true
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_swap_y_to_x(admin: signer, guy: signer) {
-        // test_swap_x_to_y_impl(&admin, &guy, false);
-        test_swap_y_to_x_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: false,
-                check_balance_not_enough: false,
-                check_pool_freeze: false
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_swap_y_to_x(admin: signer, guy: signer) {
+    //     // test_swap_x_to_y_impl(&admin, &guy, false);
+    //     test_swap_y_to_x_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: false,
+    //             check_balance_not_enough: false,
+    //             check_pool_freeze: false
+    //         }
+    //     );
+    // }
 
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_swap_y_to_x_check_balance_empty(admin: signer, guy: signer) {
-        test_swap_y_to_x_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: true,
-                check_balance_not_enough: false,
-                check_pool_freeze: false
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_swap_y_to_x_check_balance_empty(admin: signer, guy: signer) {
+    //     test_swap_y_to_x_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: true,
+    //             check_balance_not_enough: false,
+    //             check_pool_freeze: false
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_swap_y_to_x_check_balance_not_enough(admin: signer, guy: signer) {
-        test_swap_y_to_x_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: false,
-                check_balance_not_enough: true,
-                check_pool_freeze: false
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_swap_y_to_x_check_balance_not_enough(admin: signer, guy: signer) {
+    //     test_swap_y_to_x_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: false,
+    //             check_balance_not_enough: true,
+    //             check_pool_freeze: false
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    #[expected_failure(abort_code = 134010)] // EPoolFreeze
-    fun test_swap_y_to_x_check_pool_freeze(admin: signer, guy: signer) {
-        test_swap_y_to_x_impl(
-            &admin, 
-            &guy, 
-            TestSwapConfig {
-                check_balance_empty: false,
-                check_balance_not_enough: false,
-                check_pool_freeze: true
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // #[expected_failure(abort_code = 134010)] // EPoolFreeze
+    // fun test_swap_y_to_x_check_pool_freeze(admin: signer, guy: signer) {
+    //     test_swap_y_to_x_impl(
+    //         &admin, 
+    //         &guy, 
+    //         TestSwapConfig {
+    //             check_balance_empty: false,
+    //             check_balance_not_enough: false,
+    //             check_pool_freeze: true
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134009)] // ECoinNotRegister
-    fun test_add_liquidity_check_x_not_register(admin: signer, guy: signer) {
-        test_add_liquidity_impl(
-            &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
-            TestAddLiqudityConfig {
-                check_x_not_register: true,
-                check_y_not_register: false,
-                check_x_zero: false,
-                check_y_zero: false,
-                check_pool_freeze: false, 
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134009)] // ECoinNotRegister
+    // fun test_add_liquidity_check_x_not_register(admin: signer, guy: signer) {
+    //     test_add_liquidity_impl(
+    //         &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
+    //         TestAddLiqudityConfig {
+    //             check_x_not_register: true,
+    //             check_y_not_register: false,
+    //             check_x_zero: false,
+    //             check_y_zero: false,
+    //             check_pool_freeze: false, 
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134009)] // ECoinNotRegister
-    fun test_add_liquidity_check_y_not_register(admin: signer, guy: signer) {
-        test_add_liquidity_impl(
-            &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
-            TestAddLiqudityConfig {
-                check_x_not_register: false,
-                check_y_not_register: true,
-                check_x_zero: false,
-                check_y_zero: false,
-                check_pool_freeze: false,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134009)] // ECoinNotRegister
+    // fun test_add_liquidity_check_y_not_register(admin: signer, guy: signer) {
+    //     test_add_liquidity_impl(
+    //         &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
+    //         TestAddLiqudityConfig {
+    //             check_x_not_register: false,
+    //             check_y_not_register: true,
+    //             check_x_zero: false,
+    //             check_y_zero: false,
+    //             check_pool_freeze: false,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_add_liquidity_check_x_zero(admin: signer, guy: signer) {
-        test_add_liquidity_impl(
-            &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
-            TestAddLiqudityConfig {
-                check_x_not_register: false,
-                check_y_not_register: false,
-                check_x_zero: true,
-                check_y_zero: false,
-                check_pool_freeze: false,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_add_liquidity_check_x_zero(admin: signer, guy: signer) {
+    //     test_add_liquidity_impl(
+    //         &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
+    //         TestAddLiqudityConfig {
+    //             check_x_not_register: false,
+    //             check_y_not_register: false,
+    //             check_x_zero: true,
+    //             check_y_zero: false,
+    //             check_pool_freeze: false,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_add_liquidity_check_y_zero(admin: signer, guy: signer) {
-        test_add_liquidity_impl(
-            &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
-            TestAddLiqudityConfig {
-                check_x_not_register: false,
-                check_y_not_register: false,
-                check_x_zero: false,
-                check_y_zero: true,
-                check_pool_freeze: false,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_add_liquidity_check_y_zero(admin: signer, guy: signer) {
+    //     test_add_liquidity_impl(
+    //         &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
+    //         TestAddLiqudityConfig {
+    //             check_x_not_register: false,
+    //             check_y_not_register: false,
+    //             check_x_zero: false,
+    //             check_y_zero: true,
+    //             check_pool_freeze: false,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134010)] // EPoolFreeze
-    fun test_add_liquidity_check_pool_freeze(admin: signer, guy: signer) {
-        test_add_liquidity_impl(
-            &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
-            TestAddLiqudityConfig {
-                check_x_not_register: false,
-                check_y_not_register: false,
-                check_x_zero: false,
-                check_y_zero: false,
-                check_pool_freeze: true,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134010)] // EPoolFreeze
+    // fun test_add_liquidity_check_pool_freeze(admin: signer, guy: signer) {
+    //     test_add_liquidity_impl(
+    //         &admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT,
+    //         TestAddLiqudityConfig {
+    //             check_x_not_register: false,
+    //             check_y_not_register: false,
+    //             check_x_zero: false,
+    //             check_y_zero: false,
+    //             check_pool_freeze: true,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_1(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_1(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, TEST_Y_AMT, TEST_LSP_AMT);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_2(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, TEST_Y_AMT + TEST_Y_AMT / 3, TEST_LSP_AMT);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_2(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, TEST_Y_AMT + TEST_Y_AMT / 3, TEST_LSP_AMT);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_3(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, 2 * TEST_Y_AMT, TEST_LSP_AMT);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_3(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, 2 * TEST_Y_AMT, TEST_LSP_AMT);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_4(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, 1, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_4(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT, 1, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_5(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, 1, TEST_Y_AMT, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_5(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, 1, TEST_Y_AMT, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_6(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT / 2, TEST_Y_AMT / 3, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_6(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT / 2, TEST_Y_AMT / 3, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_7(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT / 3, TEST_Y_AMT / 2, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_7(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT / 3, TEST_Y_AMT / 2, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_8(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT * 2, TEST_Y_AMT * 3, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_8(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT * 2, TEST_Y_AMT * 3, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_add_liquidity_case_9(admin: signer, guy: signer) {
-        test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT * 3, TEST_Y_AMT * 2, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_add_liquidity_case_9(admin: signer, guy: signer) {
+    //     test_add_liquidity_default_impl(&admin, &guy, TEST_X_AMT * 3, TEST_Y_AMT * 2, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134009)] // ECoinNotRegister
-    fun test_withdraw_case_check_lsp_not_register(admin: signer, guy: signer) {
-        test_withdraw_liquidity_impl(
-            &admin, 
-            &guy,
-            0,
-            TestWithdrawLiqudityConfig {
-                check_lsp_not_register: true,
-                check_lsp_zero: false,
-                check_lsp_amount_larger: false,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134009)] // ECoinNotRegister
+    // fun test_withdraw_case_check_lsp_not_register(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_impl(
+    //         &admin, 
+    //         &guy,
+    //         0,
+    //         TestWithdrawLiqudityConfig {
+    //             check_lsp_not_register: true,
+    //             check_lsp_zero: false,
+    //             check_lsp_amount_larger: false,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_withdraw_case_check_lsp_zero(admin: signer, guy: signer) {
-        test_withdraw_liquidity_impl(
-            &admin, 
-            &guy,
-            0,
-            TestWithdrawLiqudityConfig {
-                check_lsp_not_register: false,
-                check_lsp_zero: true,
-                check_lsp_amount_larger: false,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_withdraw_case_check_lsp_zero(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_impl(
+    //         &admin, 
+    //         &guy,
+    //         0,
+    //         TestWithdrawLiqudityConfig {
+    //             check_lsp_not_register: false,
+    //             check_lsp_zero: true,
+    //             check_lsp_amount_larger: false,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)] 
-    #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
-    fun test_withdraw_case_check_lsp_amount_larger(admin: signer, guy: signer) {
-        test_withdraw_liquidity_impl(
-            &admin, 
-            &guy,
-            0,
-            TestWithdrawLiqudityConfig {
-                check_lsp_not_register: false,
-                check_lsp_zero: false,
-                check_lsp_amount_larger: true,
-            }
-        );
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)] 
+    // #[expected_failure(abort_code = 134008)] // ENotEnoughBalance
+    // fun test_withdraw_case_check_lsp_amount_larger(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_impl(
+    //         &admin, 
+    //         &guy,
+    //         0,
+    //         TestWithdrawLiqudityConfig {
+    //             check_lsp_not_register: false,
+    //             check_lsp_zero: false,
+    //             check_lsp_amount_larger: true,
+    //         }
+    //     );
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_1(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 0);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_1(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 0);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_2(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 1); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_2(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 1); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_3(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 10); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_3(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 10); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_4(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 100); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_4(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 100); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_5(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 1000); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_5(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 1000); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_6(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, 10000); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_6(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, 10000); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_7(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 6); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_7(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 6); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_8(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 3); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_8(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 3); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_9(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 2); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_9(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT / 2); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_10(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT * 2 / 3); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_10(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT * 2 / 3); 
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_withdraw_case_11(admin: signer, guy: signer) {
-        test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT - 1); 
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_withdraw_case_11(admin: signer, guy: signer) {
+    //     test_withdraw_liquidity_default_impl(&admin, &guy, TEST_LSP_AMT - 1); 
+    // }
 
     #[test(admin = @Aptoswap, guy = @0x10000)]
     fun test_amm_simulate_1000(admin: signer, guy: signer) {
         test_amm_simulate_1000_impl(&admin, &guy);
     }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_amm_simulate_3000(admin: signer, guy: signer) {
-        test_amm_simulate_3000_impl(&admin, &guy);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_amm_simulate_3000(admin: signer, guy: signer) {
+    //     test_amm_simulate_3000_impl(&admin, &guy);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_amm_simulate_5000(admin: signer, guy: signer) {
-        test_amm_simulate_5000_impl(&admin, &guy);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_amm_simulate_5000(admin: signer, guy: signer) {
+    //     test_amm_simulate_5000_impl(&admin, &guy);
+    // }
 
-    #[test(admin = @Aptoswap, guy = @0x10000)]
-    fun test_amm_simulate_10000(admin: signer, guy: signer) {
-        test_amm_simulate_10000_impl(&admin, &guy);
-    }
+    // #[test(admin = @Aptoswap, guy = @0x10000)]
+    // fun test_amm_simulate_10000(admin: signer, guy: signer) {
+    //     test_amm_simulate_10000_impl(&admin, &guy);
+    // }
 
     // ============================================= Test Case =============================================
 
@@ -818,9 +818,46 @@ module Aptoswap::pool_test {
         data: vector<AmmSimulationStepData>
     }
 
+    // import json
+
+    // values = []
+    // def chunks(lst, n):
+    //     """Yield successive n-sized chunks from lst."""
+    //     for i in range(0, len(lst), n):
+    //         yield tuple(lst[i:i + n])
+
+    // with open("C:/Users/Vivi/Desktop/data.txt") as fd:
+    //     for line in fd:
+    //         if line.strip():
+    //             v = int(line.strip())
+    //             values.append(v)
+
+    // assert len(values) % 9 == 0
+
+    // values = chunks(values, 9)
+    // results = []
+
+    // for (index, pool_x, pool_y, pool_admin_fee, pool_connect_fee, pool_lp_fee, pool_incentive_fee, x, y) in values:
+    //     results.append({
+    //         "direction": 'x-to-y' if (index == 111) else 'y-to-x', 
+    //         "pool_x": pool_x, 
+    //         "pool_y": pool_y, 
+    //         "pool_admin_fee": pool_admin_fee, 
+    //         "pool_connect_fee": pool_connect_fee, 
+    //         "pool_lp_fee": pool_lp_fee, 
+    //         "pool_incentive_fee": pool_incentive_fee, 
+    //         "x": x, 
+    //         "y": y
+    //     })
+
+    // with open("C:/Users/Vivi/Desktop/data-out.json", "w") as fd:
+    //     json.dump(results, fd)
+
     #[test_only]
     /// Getting a series of simulation data and check whether the simulation in the pool is right
     fun test_utils_amm_simulate(admin: &signer, guy: &signer, s: &AmmSimulationData) {
+
+        use aptos_std::debug::print;
 
         let admin_addr = signer::address_of(admin);
         let guy_addr = signer::address_of(guy);
@@ -845,17 +882,40 @@ module Aptoswap::pool_test {
             // let (x_amt_ori, y_amt_ori, _) = pool::get_amounts(pool_mut);
             if (info.x_added > 0) 
             {
+                print(&111);
+                print(&get_pool_x<TX, TY>());
+                print(&get_pool_y<TX, TY>());
+
                 managed_coin::mint<TX>(admin, guy_addr, info.x_added);
-                swap_x_to_y_impl<TX, TY>(guy, info.x_added, 0, 0);
+                let y_removed = swap_x_to_y_impl<TX, TY>(guy, info.x_added, 0, 0);
+
+                print(&get_pool_admin_fee<TX, TY>());
+                print(&get_pool_connect_fee<TX, TY>());
+                print(&get_pool_lp_fee<TX, TY>());
+                print(&get_pool_incentive_fee<TX, TY>());
+                print(&info.x_added);
+                print(&y_removed);
             }
             else if (info.y_added > 0) 
             {
+                print(&222);
+                print(&get_pool_x<TX, TY>());
+                print(&get_pool_y<TX, TY>());
+
                 managed_coin::mint<TY>(admin, guy_addr, info.y_added);
-                swap_y_to_x_impl<TX, TY>(guy, info.y_added, 0, 0);
+                let x_removed = swap_y_to_x_impl<TX, TY>(guy, info.y_added, 0, 0);
+
+                print(&get_pool_admin_fee<TX, TY>());
+                print(&get_pool_connect_fee<TX, TY>());
+                print(&get_pool_lp_fee<TX, TY>());
+                print(&get_pool_incentive_fee<TX, TY>());
+                print(&info.y_added);
+                print(&x_removed);
             };
 
             // Check the data matches the simulate data
             let (x_amt, y_amt) = (get_pool_x<TX, TY>(), get_pool_y<TX, TY>());
+
             assert!(x_amt == info.x_checked, i);
             assert!(y_amt == info.y_checked, i);
             assert!(get_bank_balance<TX>() - ori_admin_x == info.x_admin_checked, i);

@@ -244,11 +244,11 @@ module Aptoswap::pool {
     }
 
     public entry fun swap_x_to_y<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64) acquires Pool, Bank {
-        swap_x_to_y_impl<X, Y>(user, in_amount, min_out_amount, timestamp::now_seconds());
+        let _ = swap_x_to_y_impl<X, Y>(user, in_amount, min_out_amount, timestamp::now_seconds());
     }
 
     public entry fun swap_y_to_x<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64) acquires Pool, Bank {
-        swap_y_to_x_impl<X, Y>(user, in_amount, min_out_amount, timestamp::now_seconds());
+        let _ = swap_y_to_x_impl<X, Y>(user, in_amount, min_out_amount, timestamp::now_seconds());
     }
 
     public entry fun add_liquidity<X, Y>(user: &signer, x_added: u64, y_added: u64) acquires Pool, LSPCapabilities {
@@ -605,7 +605,7 @@ module Aptoswap::pool {
         out_coin
     }
 
-    public(friend) fun swap_x_to_y_impl<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64, current_time: u64) acquires Pool, Bank {
+    public(friend) fun swap_x_to_y_impl<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64, current_time: u64): u64 acquires Pool, Bank {
         let user_addr = signer::address_of(user);
 
         assert!(in_amount > 0, EInvalidParameter);
@@ -617,7 +617,10 @@ module Aptoswap::pool {
         let out_coin = swap_x_to_y_direct_impl<X, Y>(in_coin, current_time);
         assert!(coin::value(&out_coin) >= min_out_amount, ESlippageLimit);
 
+        let out_coin_balance = coin::value(&out_coin);
         coin::deposit(user_addr, out_coin);
+
+        out_coin_balance
     }
 
     public(friend) fun swap_y_to_x_direct_impl<X, Y>(in_coin: coin::Coin<Y>, current_time: u64): coin::Coin<X> acquires Pool, Bank {
@@ -704,7 +707,7 @@ module Aptoswap::pool {
         out_coin
     }
 
-    public(friend) fun swap_y_to_x_impl<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64, current_time: u64) acquires Pool, Bank {
+    public(friend) fun swap_y_to_x_impl<X, Y>(user: &signer, in_amount: u64, min_out_amount: u64, current_time: u64): u64 acquires Pool, Bank {
         let user_addr = signer::address_of(user);
 
         assert!(in_amount > 0, EInvalidParameter);
@@ -716,7 +719,9 @@ module Aptoswap::pool {
         let out_coin = swap_y_to_x_direct_impl<X, Y>(in_coin, current_time);
         assert!(coin::value(&out_coin) >= min_out_amount, ESlippageLimit);
 
+        let out_coin_balance = coin::value(&out_coin);
         coin::deposit(user_addr, out_coin);
+        out_coin_balance
     }
 
     public(friend) fun add_liquidity_impl<X, Y>(user: &signer, x_added: u64, y_added: u64) acquires Pool, LSPCapabilities {
